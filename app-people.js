@@ -12,12 +12,14 @@ const done = function() {
   db.close();
 };
 
-const create = function(givenName, surname, dob, gender) {
+const create = function(givenName, surname, dob, gender, height, weight) {
   Person.create({
     'name.given': givenName,
     'name.surname': surname,
     dob: dob,
     gender: gender,
+    height: height,
+    weight: weight
   }).then(function(person) {
     console.log(person);
   }).catch(function(error) {
@@ -81,6 +83,8 @@ db.once('open', function() {
       let surname = process.argv[4];
       let dob =  process.argv[5];
       let gender =  process.argv[6];
+      let height =  process.argv[7];
+      let weight =  process.argv[8];
       if (true || givenName) {
         create(givenName, surname, dob, gender);
       } else {
