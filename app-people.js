@@ -86,7 +86,7 @@ db.once('open', function() {
       let height =  process.argv[7];
       let weight =  process.argv[8];
       if (true || givenName) {
-        create(givenName, surname, dob, gender);
+        create(givenName, surname, dob, gender, height, weight);
       } else {
         console.log('usage c <given_name> <surname> <date of birth> [gender]');
         done();
