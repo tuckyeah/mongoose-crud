@@ -56,11 +56,12 @@ const show = function(id) {
 const update = function(id, field, value) {
   let modify = {};
   modify[field] = value;
-  Person.findByIdAndUpdate(id, { $set: modify }, { new: true })
-    .then(function(person) {
-      console.log(person.toJSON());
-    }).catch(console.error)
-    .then(done);
+  Person.findById(id).then(function(person) {
+    person[field] = value;
+    return person.save();
+  }).then(function(person) {
+    console.log(person.toJSON());
+  }).catch(console.error).then(done);
 };
 
 const destroy = function(id) {
