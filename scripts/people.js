@@ -13,6 +13,7 @@ const done = function() {
   db.close();
 };
 
+//returns a promise and loads all the people from people.csv
 const loadPeople = () =>
   new Promise((resolve, reject) => {
     const people = [];

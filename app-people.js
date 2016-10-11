@@ -6,30 +6,74 @@ mongoose.Promise = global.Promise;
 mongoose.connect('mongodb://localhost/mongoose-crud');
 const db = mongoose.connection;
 
-const Person = require('./models/person.js');
+const Person = require('./models/person.js'); // brings in the Person model
 
 const done = function() {
   db.close();
 };
 
 const create = function(givenName, surname, dob, gender, height, weight) {
-  /* Add Code Here */
+  // .create here is defined on the mongoose.model
+  Person.create({
+    // these have strings b/c they are nested attributes
+    'name.given': givenName,
+    'name.surname': surname,
+     dob: dob,
+     gender: gender,
+     height: height,
+     weight: weight
+  })
+  .then(console.log)
+  .catch(console.error)
+  .then(done);
+  // vvv lines below are the same as the lines above ^^^
+
+  // .then((person) => {
+  //   console.log(person);
+  // })
+  // .catch((error) => {
+  //   console.error(error);
+  // });
 };
 
 const index = function() {
   /* Add Code Here */
+  // Person.find();
 };
 
 const show = function(id) {
-  /* Add Code Here */
+  Person.findById(id)
+    // .then((person) => {
+    //   console.log(person)
+    // })
+    .then(console.log)
+    .catch(console.error)
+    .then(done);
 };
 
 const update = function(id, field, value) {
-  /* Add Code Here */
+  Person.findById(id)
+    .then((person) => {
+      // remember to use bracket notation here, since 'field' is a variable
+      person[field] = value;
+      // we have to return here so we can return a new promise
+      return person.save();
+    })
+    .then(console.log)
+    .catch(console.error)
+    .then(done);
 };
 
 const destroy = function(id) {
-  /* Add Code Here */
+  Person.findById(id)
+  .then((person)=> {
+    // remove has to be _called_ on a person
+    // not remove(person)
+    // that's why we can't just do .then(remove)
+    return person.remove();
+  })
+  .catch(console.error)
+  .then(done);
 };
 
 db.once('open', function() {
